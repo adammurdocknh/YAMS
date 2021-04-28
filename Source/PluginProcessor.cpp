@@ -19,9 +19,15 @@ YAMSAudioProcessor::YAMSAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+apvts(*this, nullptr, "Params", createParams())
 #endif
 {
+	inputVolumeParameter = apvts.getRawParameterValue("INPUTVOLUME");
+	saturationParameter = apvts.getRawParameterValue("SATURATION");
+	subParameter = apvts.getRawParameterValue("SUBBAND");
+	lowParameter = apvts.getRawParameterValue("LOWBAND");
+	threshParameter = apvts.getRawParameterValue("THRESHOLD");
 }
 
 YAMSAudioProcessor::~YAMSAudioProcessor()
@@ -135,6 +141,7 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+	
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -175,12 +182,19 @@ void YAMSAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+	auto state = apvts.copyState();
+	std::unique_ptr<XmlElement> xml (state.createXml());
+	copyXmlToBinary(*xml, destData);
 }
 
 void YAMSAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+	std::unique_ptr<XmlElement> xmlState (getXmlFromBinary(data, sizeInBytes));
+	if (xmlState.get() != nullptr)
+		if (xmlState->hasTagName (apvts.state.getType()))
+			apvts.replaceState(ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================
@@ -188,4 +202,28 @@ void YAMSAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new YAMSAudioProcessor();
+}
+
+
+//void YAMSAudioProcessor::mapThreshold(float input) {
+//	thresholdDSPValue = (input - min) / (max - min);
+//}
+
+
+
+juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createParams() {
+	std::vector<std::unique_ptr<RangedAudioParameter>> params;
+	
+	// Adding input slider to params vector
+	params.push_back(std::make_unique<AudioParameterFloat>("INPUTVOLUME", "Input Volume",-12.f,12.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("SATURATION", "Saturation",0.f,12.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("SUBBAND", "Sub Band",-6.f,6.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("LOWBAND", "Low Band",-6.f,6.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,0.f));
+	
+	return { params.begin(), params.end() };
 }
