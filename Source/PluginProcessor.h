@@ -53,7 +53,26 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+	AudioProcessorValueTreeState apvts;
+	
+	void mapThreshold(float input);
+	
 private:
-    //==============================================================================
+	
+	std::atomic<float>* inputVolumeParameter = nullptr;
+	std::atomic<float>* saturationParameter = nullptr;
+	std::atomic<float>* subParameter = nullptr;
+	std::atomic<float>* lowParameter = nullptr;
+	std::atomic<float>* threshParameter = nullptr;
+	
+	
+	float min = -24;
+	float max = 6.f;
+	
+	float thresholdDSPValue;
+
+	AudioProcessorValueTreeState::ParameterLayout createParams();
+
+	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (YAMSAudioProcessor)
 };
