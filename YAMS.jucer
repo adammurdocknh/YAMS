@@ -4,25 +4,31 @@
               displaySplashScreen="1" jucerFormatVersion="1" splashScreenColour="Light"
               pluginManufacturer="Sentience Coding" maxBinaryFileSize="20971520"
               pluginDesc="Yet Another Mastering Suite" pluginName="Y.A.M.S. (Yet Anothe Mastering Suite)"
-              companyName="Sentience Coding">
+              companyName="Sentience Coding" cppLanguageStandard="17">
   <MAINGROUP id="GL9cY7" name="YAMS">
     <GROUP id="{BCD451F4-4E79-5457-0C74-D5062C533DB0}" name="assets">
-      <FILE id="pNjwKo" name="LargeKnob.cpp" compile="1" resource="0" file="Source/assets/LargeKnob.cpp"/>
-      <FILE id="eDanem" name="LargeKnob.h" compile="0" resource="0" file="Source/assets/LargeKnob.h"/>
-      <FILE id="pKGmWX" name="LargeKnob.png" compile="0" resource="1" file="Source/assets/LargeKnob.png"/>
-      <FILE id="JYAcCY" name="SmallKnob.cpp" compile="1" resource="0" file="Source/assets/SmallKnob.cpp"/>
-      <FILE id="s0SNDN" name="SmallKnob.h" compile="0" resource="0" file="Source/assets/SmallKnob.h"/>
-      <FILE id="oZK1qh" name="red knob.png" compile="0" resource="1" file="Source/assets/red knob.png"/>
-      <FILE id="ZPws3E" name="SmallKnob.png" compile="0" resource="1" file="Source/assets/SmallKnob.png"/>
-      <FILE id="Ah25C9" name="YAMS GUI.afdesign" compile="0" resource="1"
+      <FILE id="S6iYnL" name="LargeKnob.afdesign" compile="0" resource="0"
+            file="Source/assets/LargeKnob.afdesign"/>
+      <FILE id="OA9ZUk" name="LargeKnob.cpp" compile="1" resource="0" file="Source/assets/LargeKnob.cpp"/>
+      <FILE id="IWOEeV" name="LargeKnob.h" compile="0" resource="0" file="Source/assets/LargeKnob.h"/>
+      <FILE id="Y6kLA8" name="LargeKnob.png" compile="0" resource="1" file="Source/assets/LargeKnob.png"/>
+      <FILE id="fcfF58" name="MediumKnob.afdesign" compile="0" resource="0"
+            file="Source/assets/MediumKnob.afdesign"/>
+      <FILE id="AN8PAE" name="MediumKnob.cpp" compile="1" resource="0" file="Source/assets/MediumKnob.cpp"/>
+      <FILE id="rfs8D8" name="MediumKnob.h" compile="0" resource="0" file="Source/assets/MediumKnob.h"/>
+      <FILE id="Xx7qRv" name="MediumKnob.png" compile="0" resource="1" file="Source/assets/MediumKnob.png"/>
+      <FILE id="yKyIvq" name="SmallKnob.cpp" compile="1" resource="0" file="Source/assets/SmallKnob.cpp"/>
+      <FILE id="iz0XLD" name="SmallKnob.h" compile="0" resource="0" file="Source/assets/SmallKnob.h"/>
+      <FILE id="nQTeWD" name="SmallKnob.png" compile="0" resource="1" file="Source/assets/SmallKnob.png"/>
+      <FILE id="ad4mQg" name="YAMS GUI.afdesign" compile="0" resource="0"
             file="Source/assets/YAMS GUI.afdesign"/>
-      <FILE id="vFnoqc" name="YAMS GUI redo.afdesign" compile="0" resource="1"
+      <FILE id="rQxKzU" name="YAMS GUI redo.afdesign" compile="0" resource="0"
             file="Source/assets/YAMS GUI redo.afdesign"/>
-      <FILE id="kcDM24" name="YAMS GUI redo.png" compile="0" resource="1"
+      <FILE id="LUzQ13" name="YAMS GUI redo.png" compile="0" resource="1"
             file="Source/assets/YAMS GUI redo.png"/>
-      <FILE id="skKzHA" name="YAMS GUI VERT.afdesign" compile="0" resource="1"
+      <FILE id="vbs1tf" name="YAMS GUI VERT.afdesign" compile="0" resource="0"
             file="Source/assets/YAMS GUI VERT.afdesign"/>
-      <FILE id="nkgfEt" name="YAMS GUI.png" compile="0" resource="1" file="Source/assets/YAMS GUI.png"/>
+      <FILE id="KuYfLT" name="YAMS GUI.png" compile="0" resource="1" file="Source/assets/YAMS GUI.png"/>
     </GROUP>
     <GROUP id="{BFAD9F80-3F11-88FB-BE9E-126F405762DE}" name="components">
       <FILE id="M971jt" name="Biquad.cpp" compile="1" resource="0" file="Source/components/Biquad.cpp"/>
@@ -38,8 +44,6 @@
       <FILE id="qrHjly" name="SimpleMeter.h" compile="0" resource="0" file="Source/components/SimpleMeter.h"/>
       <FILE id="RNdfNH" name="VUAnalysis.h" compile="0" resource="0" file="Source/components/VUAnalysis.h"/>
     </GROUP>
-    <FILE id="zIwSqP" name="LargeKnob.afdesign" compile="0" resource="1"
-          file="Source/assets/LargeKnob.afdesign"/>
     <GROUP id="{DE4D82C5-EC78-0BE3-5E92-D2EF5181BC30}" name="Source">
       <FILE id="xnr4Wa" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
