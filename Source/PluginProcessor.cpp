@@ -20,14 +20,23 @@ YAMSAudioProcessor::YAMSAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-apvts(*this, nullptr, "Params", createParams())
+						apvts(*this, nullptr, "Params", createParams())
+
 #endif
+
 {
 	inputVolumeParameter = apvts.getRawParameterValue("INPUTVOLUME");
 	saturationParameter = apvts.getRawParameterValue("SATURATION");
 	subParameter = apvts.getRawParameterValue("SUBBAND");
 	lowParameter = apvts.getRawParameterValue("LOWBAND");
+	midParameter = apvts.getRawParameterValue("MIDBAND");
+	highParameter = apvts.getRawParameterValue("HIGHBAND");
+	airParameter = apvts.getRawParameterValue("AIRBAND");
+
 	threshParameter = apvts.getRawParameterValue("THRESHOLD");
+	
+	atkParameter = apvts.getRawParameterValue("ATK");
+
 }
 
 YAMSAudioProcessor::~YAMSAudioProcessor()
@@ -141,7 +150,18 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+	auto inputVolume = apvts.getRawParameterValue("INPUTVOLUME")->load();
+	auto saturation = apvts.getRawParameterValue("SATURATION")->load();
 	
+	auto subGain = apvts.getRawParameterValue("SUBBAND")->load();
+	auto lowGain = apvts.getRawParameterValue("LOWBAND")->load();
+	auto midGain = apvts.getRawParameterValue("MIDBAND")->load();
+	auto highGain = apvts.getRawParameterValue("HIGHBAND")->load();
+	auto airGain = apvts.getRawParameterValue("AIRBAND")->load();
+	
+
+//	saturationKnob.setDrive(saturation);
+//
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -159,9 +179,13 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // interleaved by keeping the same state.
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
+		for(int n = 0; n < buffer.getNumSamples(); n++) {
+//			saturationKnob.setDrive(saturation);
+			float input = buffer.getReadPointer(channel)[n];
+			input *= Decibels::decibelsToGain(inputVolume);
+			input = saturationKnob.processSample(input, saturation, channel);
+			buffer.getWritePointer(channel)[n] = input;
+		}
     }
 }
 
@@ -204,26 +228,28 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
     return new YAMSAudioProcessor();
 }
 
-
-//void YAMSAudioProcessor::mapThreshold(float input) {
-//	thresholdDSPValue = (input - min) / (max - min);
-//}
-
-
-
 juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createParams() {
 	std::vector<std::unique_ptr<RangedAudioParameter>> params;
 	
 	// Adding input slider to params vector
 	params.push_back(std::make_unique<AudioParameterFloat>("INPUTVOLUME", "Input Volume",-12.f,12.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("SATURATION", "Saturation",0.f,12.f,0.f));
+	params.push_back(std::make_unique<AudioParameterFloat>("SATURATION", "Saturation",0.f,3.f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("SUBBAND", "Sub Band",-6.f,6.f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("LOWBAND", "Low Band",-6.f,6.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,0.f));
+	params.push_back(std::make_unique<AudioParameterFloat>("MIDBAND", "Mid Band",-6.f,6.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("HIGHBAND", "High Band",-6.f,6.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("AIRBAND", "Air Band",-6.f,6.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
+//	AudioParameterChoice (const String &parameterID, const String &parameterName, const StringArray &choices, int defaultItemIndex, const String &parameterLabel=String(), std::function< String(int index, int maximumStringLength)> stringFromIndex=nullptr, std::function< int(const String &text)> indexFromString=nullptr)
+	
+	params.push_back(std::make_unique<AudioParameterChoice>("ATK","Attack",StringArray ("S","M","F"), 0));
 	
 	return { params.begin(), params.end() };
 }
