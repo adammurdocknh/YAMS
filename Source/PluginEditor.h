@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "assets/LargeKnob.h"
+#include "assets/MediumKnob.h"
 #include "assets/SmallKnob.h"
 
 //==============================================================================
@@ -33,7 +34,6 @@ private:
     // access the processor object that created it.
 	
 	Slider inputVolumeSlider;
-	
 	Slider saturationKnob;
 	
 	Slider subKnob;
@@ -45,6 +45,9 @@ private:
 	Slider threshKnob;
 	Slider ratioKnob;
 	Slider limiterKnob;
+	Slider slottedKnob;
+	
+	ComboBox atkBox;
 
 	
 //	CustomLookAndFeel customLookAndFeel;
@@ -63,6 +66,9 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiterAttachment;
 	
 	
+	std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> atkAttachment;
+	
+	
 	
 //	myLookAndFeelBlueKnob myLookAndFeelBlueKnob;
 	
@@ -71,6 +77,7 @@ private:
 //	WhiteKnob saturationKnobLookAndFeel;
 //
 	LargeKnob largeKnobLookAndFeel;
+	MediumKnob mediumKnobLookAndFeel;
 	SmallKnob smallKnobLookAndFeel;
     YAMSAudioProcessor& audioProcessor;
 	
