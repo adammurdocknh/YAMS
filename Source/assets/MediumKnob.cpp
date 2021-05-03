@@ -8,9 +8,9 @@
   ==============================================================================
 */
 
-#include "LargeKnob.h"
+#include "MediumKnob.h"
 
-void LargeKnob::drawRotarySlider (Graphics& g,
+void MediumKnob::drawRotarySlider (Graphics& g,
                                       int x,
                                       int y,
                                       int width,

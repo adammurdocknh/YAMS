@@ -9,6 +9,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "components/Saturation.h"
+#include "components/Equalizer.h"
 
 //==============================================================================
 /**
@@ -53,9 +55,10 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	AudioProcessorValueTreeState apvts;
+	Saturation saturationKnob;
+	Equalizer eq;
 	
-	void mapThreshold(float input);
+	AudioProcessorValueTreeState apvts;
 	
 private:
 	
@@ -63,11 +66,13 @@ private:
 	std::atomic<float>* saturationParameter = nullptr;
 	std::atomic<float>* subParameter = nullptr;
 	std::atomic<float>* lowParameter = nullptr;
+	std::atomic<float>* midParameter = nullptr;
+	std::atomic<float>* highParameter = nullptr;
+	std::atomic<float>* airParameter = nullptr;
+	
 	std::atomic<float>* threshParameter = nullptr;
 	
-	
-	float min = -24;
-	float max = 6.f;
+	std::atomic<float>* atkParameter = nullptr;
 	
 	float thresholdDSPValue;
 

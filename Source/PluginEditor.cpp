@@ -24,12 +24,14 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	inputVolumeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"INPUTVOLUME",inputVolumeSlider);
 	addAndMakeVisible(inputVolumeSlider);
 	
+	
 	saturationKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	saturationKnob.setBounds(175, 75, 125, 125);
 	saturationKnob.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 	saturationKnob.setValue(0.f);
 	saturationKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	saturationAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"SATURATION",saturationKnob);
+//	saturationKnob.setRange(0, 12, 1);
 	addAndMakeVisible(saturationKnob);
 
 	subKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -57,7 +59,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	addAndMakeVisible(midKnob);
 	
 	highKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	highKnob.setBounds(440, 75, 50, 50);
+	highKnob.setBounds(330, 145, 50, 50);
 	highKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 	highKnob.setValue(0.f);
 	highKnob.setLookAndFeel(&smallKnobLookAndFeel);
@@ -65,17 +67,29 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	addAndMakeVisible(highKnob);
 	
 	airKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	airKnob.setBounds(440, 75, 50, 50);
+	airKnob.setBounds(385, 145, 50, 50);
 	airKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 	airKnob.setValue(0.f);
 	airKnob.setLookAndFeel(&smallKnobLookAndFeel);
 	airAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"AIRBAND",airKnob);
 	addAndMakeVisible(airKnob);
 	
+	threshKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	threshKnob.setBounds(25, 275, 70, 70);
+	threshKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+	threshKnob.setLookAndFeel(&mediumKnobLookAndFeel);
+	threshAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"THRESHOLD",threshKnob);
+	addAndMakeVisible(threshKnob);
 	
-	
-	
-	
+
+	atkBox.setBounds(340, 290, 50, 25);
+	atkBox.addItem("S", 1);
+	atkBox.addItem("M", 2);
+	atkBox.addItem("F", 3);
+	atkBox.setSelectedId(1);
+	atkAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts,"ATK",atkBox);
+	addAndMakeVisible(atkBox);
+
 	
 	
 	setSize (725, 400);
