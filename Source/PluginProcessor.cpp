@@ -169,6 +169,13 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 	
 	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
 
+	// Test values for EQ
+	
+	eq.setSubFreq(60.f);
+	eq.setLowFreq(200.f);
+	eq.setMidFreq(1000.f);
+	eq.setHighFreq(5000.f);
+	eq.setAirFreq(10000.f);
 //
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -189,7 +196,14 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 		for(int n = 0; n < buffer.getNumSamples(); n++) {
 			float input = buffer.getReadPointer(channel)[n];
 			input *= Decibels::decibelsToGain(inputVolume);
-			input = preEQSaturationStage.processSample(input, saturation, channel);
+			
+			
+			
+			
+			
+			input = preEQSaturationStage.processSample(input, saturation * .5, channel);
+			input = eq.processSample(input, channel, subGain, lowGain, midGain, highGain, airGain);
+			input = postEQSaturationStage.processSample(input, saturation * .5, channel);
 			buffer.getWritePointer(channel)[n] = input;
 		}
     }

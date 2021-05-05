@@ -12,8 +12,16 @@
 
 Equalizer::Equalizer(){}
 
-float Equalizer::processSample(float input, float channel) {
+float Equalizer::processSample(float input, float channel, float subGain, float lowGain, float midGain, float highGain, float airGain) {
+	
+	
 	float inputdB = Decibels::decibelsToGain(input);
+	
+	subPeakFilter.setAmpdB(subGain);
+	lowPeakFilter.setAmpdB(lowGain);
+	midPeakFilter.setAmpdB(midGain);
+	highPeakFilter.setAmpdB(highGain);
+	airShelf.setAmpdB(airGain);
 	
 	input = subHPF.processSample(input, channel);
 	input = subPeakFilter.processSample(input, channel);
@@ -31,3 +39,23 @@ void Equalizer::setFs(int Fs) {
 	this->Fs = Fs;
 }
 
+void Equalizer::setSubFreq(float freq) {
+	subHPF.setFreq(freq);
+	subPeakFilter.setFreq(freq);
+}
+
+void Equalizer::setLowFreq(float freq) {
+	lowPeakFilter.setFreq(freq);
+}
+
+void Equalizer::setMidFreq(float freq) {
+	midPeakFilter.setFreq(freq);
+}
+
+void Equalizer::setHighFreq(float freq) {
+	highPeakFilter.setFreq(freq);
+}
+
+void Equalizer::setAirFreq(float freq) {
+	airShelf.setFreq(freq);
+}

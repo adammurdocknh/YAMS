@@ -14,7 +14,7 @@
 class Equalizer {
 public:
 	Equalizer();
-	float processSample(float input, float channel);
+	float processSample(float input, float channel, float subGain, float lowGain, float midGain, float highGain, float airGain);
 	
 	void setSubFreq(float freq);
 	void setLowFreq(float freq);
