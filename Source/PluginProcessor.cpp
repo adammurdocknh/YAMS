@@ -34,8 +34,11 @@ YAMSAudioProcessor::YAMSAudioProcessor()
 	airParameter = apvts.getRawParameterValue("AIRBAND");
 
 	threshParameter = apvts.getRawParameterValue("THRESHOLD");
+	ratioParameter = apvts.getRawParameterValue("RATIO");
+	limiterParameter = apvts.getRawParameterValue("LIMIT");
 	
 	atkParameter = apvts.getRawParameterValue("ATK");
+	atkParameter = apvts.getRawParameterValue("RLS");
 
 }
 
@@ -160,7 +163,12 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 	auto airGain = apvts.getRawParameterValue("AIRBAND")->load();
 	
 
-//	saturationKnob.setDrive(saturation);
+	// Controls for compressor
+	auto threshold = apvts.getRawParameterValue("THRESHOLD")->load();
+	auto ratio = apvts.getRawParameterValue("RATIO")->load();
+	
+	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
+
 //
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -177,13 +185,11 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
+    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
 		for(int n = 0; n < buffer.getNumSamples(); n++) {
-//			saturationKnob.setDrive(saturation);
 			float input = buffer.getReadPointer(channel)[n];
 			input *= Decibels::decibelsToGain(inputVolume);
-			input = saturationKnob.processSample(input, saturation, channel);
+			input = preEQSaturationStage.processSample(input, saturation, channel);
 			buffer.getWritePointer(channel)[n] = input;
 		}
     }
@@ -247,9 +253,15 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	params.push_back(std::make_unique<AudioParameterFloat>("AIRBAND", "Air Band",-6.f,6.f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
-//	AudioParameterChoice (const String &parameterID, const String &parameterName, const StringArray &choices, int defaultItemIndex, const String &parameterLabel=String(), std::function< String(int index, int maximumStringLength)> stringFromIndex=nullptr, std::function< int(const String &text)> indexFromString=nullptr)
 	
-	params.push_back(std::make_unique<AudioParameterChoice>("ATK","Attack",StringArray ("S","M","F"), 0));
+	params.push_back(std::make_unique<AudioParameterFloat>("RATIO","Ratio",1.f,20.f,0.f));
+
+	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-6.f,-.1f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterChoice>("ATK","Attack",StringArray ("S","M","F"), 1));
+	
+	params.push_back(std::make_unique<AudioParameterChoice>("RLS","Release",StringArray ("S","M","F"), 1));
+	
 	
 	return { params.begin(), params.end() };
 }
