@@ -191,14 +191,24 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
+    playHead = this->getPlayHead();
+    playHead->getCurrentPosition(currentPositionInfo);
+    
+    float newBPM = currentPositionInfo.bpm;
+    if (bpm != newBPM){
+        comp.setBPM(newBPM);
+        bpm = newBPM;
+    }
+    
+    comp.setAttackNote(attackNote);
+    comp.setReleaseNote(releaseNote);
+    
     dsp::AudioBlock<float> block (buffer);
     
-//    Compressor.setAttack(*atkParameter);
-    Compressor.setAttack(10.0f);
-    Compressor.setRelease(100.0f);
+    Compressor.setAttack(comp.getAttack());
+    Compressor.setRelease(comp.getRelease());
     
     Compressor.setRatio(ratio);
-//    Compressor.setRelease(*rlsParameter);
     Compressor.setThreshold(threshold);
     
     Compressor.process(dsp::ProcessContextReplacing<float> (block));

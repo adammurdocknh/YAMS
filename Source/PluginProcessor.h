@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "components/Saturation.h"
 #include "components/Equalizer.h"
+#include "components/Compressor.h"
 
 //==============================================================================
 /**
@@ -54,6 +55,14 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    float attack = 10.0f;
+    
+    float release = 125.0f;
+    
+    float attackNote = 16.f;
+    
+    float releaseNote = 1.f;
 
 	Saturation preEQSaturationStage;
 	Saturation postEQSaturationStage;
@@ -85,6 +94,14 @@ private:
     dsp::Compressor<float> Compressor;
     dsp::Limiter<float> limiter;
     dsp::ProcessSpec spec;
+    
+    class Compressor comp;
+    
+    AudioPlayHead* playHead;
+    
+    AudioPlayHead::CurrentPositionInfo currentPositionInfo;
+    
+    float bpm = 120.f;
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (YAMSAudioProcessor)

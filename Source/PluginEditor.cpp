@@ -98,7 +98,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	limiterAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"LIMIT",limiterKnob);
 	addAndMakeVisible(limiterKnob);
 
-//    atkBox.addListener(this);
+    atkBox.addListener(this);
 	atkBox.setBounds(340, 290, 50, 25);
 	atkBox.addItem("S", 1);
 	atkBox.addItem("M", 2);
@@ -107,6 +107,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	atkAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts,"ATK",atkBox);
 	addAndMakeVisible(atkBox);
 
+    rlsBox.addListener(this);
 	rlsBox.setBounds(340, 340, 50, 25);
 	rlsBox.addItem("S", 1);
 	rlsBox.addItem("M", 2);
@@ -136,16 +137,28 @@ void YAMSAudioProcessorEditor::resized()
 	// LookAndFeel
 }
 
-//void YAMSAudioProcessorEditor::comboBoxChanged(ComboBox *comboBox){
-//    if(comboBox == &atkBox){
-//        if(atkBox.getSelectedId() == 1){
-//            audioProcessor.atkParameter = 10.0f;
-//        }
-//        if(atkBox.getSelectedId() == 2){
-//
-//        }
-//        if(atkBox.getSelectedId() == 3){
-//
-//        }
-//    }
-//}
+void YAMSAudioProcessorEditor::comboBoxChanged(ComboBox *comboBox){
+    if(comboBox == &atkBox){
+        if(atkBox.getSelectedId() == 1){
+            audioProcessor.attackNote = 16.f; // set attack to 64th note
+        }
+        if(atkBox.getSelectedId() == 2){
+            audioProcessor.attackNote = 64.f; //set attack to 256th note
+        }
+        if(atkBox.getSelectedId() == 3){
+            audioProcessor.attackNote = 256.f; //set attack to 1024th note
+        }
+    }
+    
+    if(comboBox == &rlsBox){
+        if(rlsBox.getSelectedId() == 1){
+            audioProcessor.releaseNote = 0.25f; // set release to whole note
+        }
+        if(rlsBox.getSelectedId() == 2){
+            audioProcessor.releaseNote = 1.f; // set release to quarter note
+        }
+        if(rlsBox.getSelectedId() == 3){
+            audioProcessor.releaseNote = 4.f; // set release to 16th note
+        }
+    }
+}
