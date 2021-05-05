@@ -9,3 +9,7 @@
 */
 
 #include "Compressor.h"
+
+Compressor::Compressor(){}
+
+

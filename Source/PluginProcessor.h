@@ -81,6 +81,10 @@ private:
 	float thresholdDSPValue;
 
 	AudioProcessorValueTreeState::ParameterLayout createParams();
+    
+    dsp::Compressor<float> Compressor;
+    dsp::Limiter<float> limiter;
+    dsp::ProcessSpec spec;
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (YAMSAudioProcessor)

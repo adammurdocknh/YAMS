@@ -98,6 +98,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	limiterAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"LIMIT",limiterKnob);
 	addAndMakeVisible(limiterKnob);
 
+//    atkBox.addListener(this);
 	atkBox.setBounds(340, 290, 50, 25);
 	atkBox.addItem("S", 1);
 	atkBox.addItem("M", 2);
@@ -134,3 +135,17 @@ void YAMSAudioProcessorEditor::resized()
 {
 	// LookAndFeel
 }
+
+//void YAMSAudioProcessorEditor::comboBoxChanged(ComboBox *comboBox){
+//    if(comboBox == &atkBox){
+//        if(atkBox.getSelectedId() == 1){
+//            audioProcessor.atkParameter = 10.0f;
+//        }
+//        if(atkBox.getSelectedId() == 2){
+//
+//        }
+//        if(atkBox.getSelectedId() == 3){
+//
+//        }
+//    }
+//}

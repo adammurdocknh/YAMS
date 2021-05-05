@@ -9,3 +9,15 @@
 */
 
 #pragma once
+
+class Compressor {
+    
+public:
+    Compressor();
+    float processSample();
+    
+    
+private:
+    
+    
+};

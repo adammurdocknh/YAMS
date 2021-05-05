@@ -18,6 +18,7 @@
 /**
 */
 class YAMSAudioProcessorEditor  :	public juce::AudioProcessorEditor
+//                                    public juce::ComboBox::Listener
 {
 public:
     YAMSAudioProcessorEditor (YAMSAudioProcessor&);
@@ -26,6 +27,8 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    
+//    void comboBoxChanged(ComboBox * comboBox) override;
 
 
 

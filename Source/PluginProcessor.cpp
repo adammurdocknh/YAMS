@@ -113,6 +113,18 @@ void YAMSAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 2;
+    
+    Compressor.prepare(spec);
+    Compressor.reset();
+    
+    limiter.prepare(spec);
+    limiter.reset();
+    
+    
 }
 
 void YAMSAudioProcessor::releaseResources()
@@ -178,6 +190,25 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+    
+    dsp::AudioBlock<float> block (buffer);
+    
+//    Compressor.setAttack(*atkParameter);
+    Compressor.setAttack(10.0f);
+    Compressor.setRelease(100.0f);
+    
+    Compressor.setRatio(ratio);
+//    Compressor.setRelease(*rlsParameter);
+    Compressor.setThreshold(threshold);
+    
+    Compressor.process(dsp::ProcessContextReplacing<float> (block));
+    
+    limiter.setThreshold(limitThreshold);
+    limiter.setRelease(12.f);
+    limiter.process(dsp::ProcessContextReplacing<float>(block));
+    
+    block.copyTo(buffer);
+
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
