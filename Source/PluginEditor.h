@@ -48,34 +48,28 @@ private:
 	Slider slottedKnob;
 	
 	ComboBox atkBox;
-
+	ComboBox rlsBox;
 	
 //	CustomLookAndFeel customLookAndFeel;
 	
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> inputVolumeAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> saturationAttachment;
 	
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment>subAttachment;
+	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> subAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> lowAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> midAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> highAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> airAttachment;
 	
+	
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> threshAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> ratioAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiterAttachment;
 	
-	
 	std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> atkAttachment;
+	std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> rlsAttachment;
 	
-	
-	
-//	myLookAndFeelBlueKnob myLookAndFeelBlueKnob;
-	
-//	BlueKnob threshKnobLookAndFeel;
-//
-//	WhiteKnob saturationKnobLookAndFeel;
-//
+
 	LargeKnob largeKnobLookAndFeel;
 	MediumKnob mediumKnobLookAndFeel;
 	SmallKnob smallKnobLookAndFeel;
