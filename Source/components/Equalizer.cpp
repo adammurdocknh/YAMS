@@ -25,10 +25,9 @@ float Equalizer::processSample(float input, float channel) {
 	input = airShelf.processSample(input, channel);
 	
 	
-//	float output = input - (Decibels::decibelsToGain(input)-inputdB);
-
 	return (input - (Decibels::decibelsToGain(input)-inputdB));
 }
 void Equalizer::setFs(int Fs) {
 	this->Fs = Fs;
 }
+

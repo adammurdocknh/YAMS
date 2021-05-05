@@ -55,7 +55,8 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	Saturation saturationKnob;
+	Saturation preEQSaturationStage;
+	Saturation postEQSaturationStage;
 	Equalizer eq;
 	
 	AudioProcessorValueTreeState apvts;
@@ -71,8 +72,11 @@ private:
 	std::atomic<float>* airParameter = nullptr;
 	
 	std::atomic<float>* threshParameter = nullptr;
+	std::atomic<float>* ratioParameter = nullptr;
+	std::atomic<float>* limiterParameter = nullptr;
 	
 	std::atomic<float>* atkParameter = nullptr;
+	std::atomic<float>* rlsParameter = nullptr;
 	
 	float thresholdDSPValue;
 
