@@ -41,6 +41,7 @@ private:
 	Slider midKnob;
 	Slider highKnob;
 	Slider airKnob;
+	ComboBox keySelectBox;
 	
 	Slider threshKnob;
 	Slider ratioKnob;
@@ -60,6 +61,7 @@ private:
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> midAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> highAttachment;
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> airAttachment;
+	std::unique_ptr<AudioProcessorValueTreeState::ComboBoxAttachment> keySelectAttachment;
 	
 	
 	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> threshAttachment;

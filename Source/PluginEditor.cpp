@@ -74,6 +74,24 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	airAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"AIRBAND",airKnob);
 	addAndMakeVisible(airKnob);
 	
+	keySelectBox.setBounds(445, 150, 40, 40);
+	keySelectBox.addItem("C", 1);
+	keySelectBox.addItem("C#", 2);
+	keySelectBox.addItem("D", 3);
+	keySelectBox.addItem("Eb", 4);
+	keySelectBox.addItem("E", 5);
+	keySelectBox.addItem("F", 6);
+	keySelectBox.addItem("F#", 7);
+	keySelectBox.addItem("G", 8);
+	keySelectBox.addItem("Ab",9);
+	keySelectBox.addItem("A", 10);
+	keySelectBox.addItem("Bb",11);
+	keySelectBox.addItem("B",12);
+	keySelectBox.setSelectedId(1);
+	keySelectAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts,"KEY",keySelectBox);
+	addAndMakeVisible(keySelectBox);
+	
+	
 	threshKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	threshKnob.setBounds(25, 275, 70, 70);
 	threshKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);

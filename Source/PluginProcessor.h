@@ -70,6 +70,7 @@ private:
 	std::atomic<float>* midParameter = nullptr;
 	std::atomic<float>* highParameter = nullptr;
 	std::atomic<float>* airParameter = nullptr;
+	std::atomic<float>* keyParameter = nullptr;
 	
 	std::atomic<float>* threshParameter = nullptr;
 	std::atomic<float>* ratioParameter = nullptr;
