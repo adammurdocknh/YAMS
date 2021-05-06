@@ -196,9 +196,15 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     
     float newBPM = currentPositionInfo.bpm;
     if (bpm != newBPM){
+//        smoothBPM = 0.999f * smoothBPM + 0.001f * newBPM;
         comp.setBPM(newBPM);
         bpm = newBPM;
     }
+    
+//    if(prevBPM != bpm){
+//        bpm = (prevBPM + bpm)/2;
+//        prevBPM = bpm;
+//    }
     
     comp.setAttackNote(attackNote);
     comp.setReleaseNote(releaseNote);

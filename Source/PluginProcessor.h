@@ -101,7 +101,11 @@ private:
     
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;
     
+    float prevBPM = 120.f;
+    
     float bpm = 120.f;
+    
+    float smoothBPM = 120.f;
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (YAMSAudioProcessor)

@@ -140,19 +140,19 @@ void YAMSAudioProcessorEditor::resized()
 void YAMSAudioProcessorEditor::comboBoxChanged(ComboBox *comboBox){
     if(comboBox == &atkBox){
         if(atkBox.getSelectedId() == 1){
-            audioProcessor.attackNote = 16.f; // set attack to 64th note
+            audioProcessor.attackNote = 32.f; // set attack to 128th note
         }
         if(atkBox.getSelectedId() == 2){
             audioProcessor.attackNote = 64.f; //set attack to 256th note
         }
         if(atkBox.getSelectedId() == 3){
-            audioProcessor.attackNote = 256.f; //set attack to 1024th note
+            audioProcessor.attackNote = 512.f; //set attack to 2048th note
         }
     }
     
     if(comboBox == &rlsBox){
         if(rlsBox.getSelectedId() == 1){
-            audioProcessor.releaseNote = 0.25f; // set release to whole note
+            audioProcessor.releaseNote = 0.5f; // set release to half note
         }
         if(rlsBox.getSelectedId() == 2){
             audioProcessor.releaseNote = 1.f; // set release to quarter note
