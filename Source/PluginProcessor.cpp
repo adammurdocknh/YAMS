@@ -32,6 +32,7 @@ YAMSAudioProcessor::YAMSAudioProcessor()
 	midParameter = apvts.getRawParameterValue("MIDBAND");
 	highParameter = apvts.getRawParameterValue("HIGHBAND");
 	airParameter = apvts.getRawParameterValue("AIRBAND");
+	keyParameter = apvts.getRawParameterValue("KEY");
 
 	threshParameter = apvts.getRawParameterValue("THRESHOLD");
 	ratioParameter = apvts.getRawParameterValue("RATIO");
@@ -162,20 +163,24 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 	auto highGain = apvts.getRawParameterValue("HIGHBAND")->load();
 	auto airGain = apvts.getRawParameterValue("AIRBAND")->load();
 	
-
+	auto keySelected = apvts.getRawParameterValue("KEY")->load();
+	
 	// Controls for compressor
 	auto threshold = apvts.getRawParameterValue("THRESHOLD")->load();
 	auto ratio = apvts.getRawParameterValue("RATIO")->load();
 	
 	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
 
-//
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+	// Test values for EQ
+	
+//	eq.setSubFreq(60.f);
+//	eq.setLowFreq(200.f);
+//	eq.setMidFreq(1000.f);
+//	eq.setHighFreq(5000.f);
+//	eq.setAirFreq(10000.f);
+	
+	
+	
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -187,9 +192,13 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // interleaved by keeping the same state.
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
 		for(int n = 0; n < buffer.getNumSamples(); n++) {
+			eq.setKey(keySelected);
+
 			float input = buffer.getReadPointer(channel)[n];
 			input *= Decibels::decibelsToGain(inputVolume);
-			input = preEQSaturationStage.processSample(input, saturation, channel);
+			input = preEQSaturationStage.processSample(input, saturation * .25, channel);
+			input = eq.processSample(input, channel, subGain, lowGain, midGain, highGain, airGain);
+			input = postEQSaturationStage.processSample(input, saturation * .25, channel);
 			buffer.getWritePointer(channel)[n] = input;
 		}
     }
@@ -251,6 +260,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	params.push_back(std::make_unique<AudioParameterFloat>("HIGHBAND", "High Band",-6.f,6.f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("AIRBAND", "Air Band",-6.f,6.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterChoice>("KEY","Key Select",StringArray("C","C#","D","Eb","E","F","F#","G","Ab","A","Bb","B"),0));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
 	
