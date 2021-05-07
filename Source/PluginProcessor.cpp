@@ -179,7 +179,8 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 //	eq.setHighFreq(5000.f);
 //	eq.setAirFreq(10000.f);
 	
-	
+	playHead = this->getPlayHead();
+	playHead->getCurrentPosition (currentPositionInfo);
 	
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
@@ -192,13 +193,24 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // interleaved by keeping the same state.
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
 		for(int n = 0; n < buffer.getNumSamples(); n++) {
+			 
 			eq.setKey(keySelected);
 
+			currentBPM = currentPositionInfo.bpm;
+
 			float input = buffer.getReadPointer(channel)[n];
+			
 			input *= Decibels::decibelsToGain(inputVolume);
 			input = preEQSaturationStage.processSample(input, saturation * .25, channel);
 			input = eq.processSample(input, channel, subGain, lowGain, midGain, highGain, airGain);
 			input = postEQSaturationStage.processSample(input, saturation * .25, channel);
+			
+			if(previousBPM != currentBPM) {
+				currentBPM = (previousBPM*currentBPM) / 2;
+			};
+			
+			previousBPM = currentBPM;
+			
 			buffer.getWritePointer(channel)[n] = input;
 		}
     }

@@ -80,7 +80,12 @@ private:
 	std::atomic<float>* rlsParameter = nullptr;
 	
 	float thresholdDSPValue;
+	float previousBPM = 120;
+	float currentBPM;
 
+	AudioPlayHead* playHead;
+    AudioPlayHead::CurrentPositionInfo currentPositionInfo;
+	
 	AudioProcessorValueTreeState::ParameterLayout createParams();
 
 	//==============================================================================

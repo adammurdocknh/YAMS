@@ -31,7 +31,6 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	saturationKnob.setValue(0.f);
 	saturationKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	saturationAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"SATURATION",saturationKnob);
-//	saturationKnob.setRange(0, 12, 1);
 	addAndMakeVisible(saturationKnob);
 
 	subKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
