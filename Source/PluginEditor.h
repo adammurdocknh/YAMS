@@ -13,6 +13,8 @@
 #include "assets/LargeKnob.h"
 #include "assets/MediumKnob.h"
 #include "assets/SmallKnob.h"
+//#include "assets/SimpleMeter.h"
+//#include "assets/VUAnalysis.h"
 
 //==============================================================================
 /**
@@ -50,6 +52,8 @@ private:
 	
 	ComboBox atkBox;
 	ComboBox rlsBox;
+	
+	
 	
 //	CustomLookAndFeel customLookAndFeel;
 	

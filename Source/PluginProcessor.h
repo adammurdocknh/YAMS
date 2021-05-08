@@ -79,10 +79,6 @@ private:
 	std::atomic<float>* atkParameter = nullptr;
 	std::atomic<float>* rlsParameter = nullptr;
 	
-	float thresholdDSPValue;
-	float previousBPM = 120;
-	float currentBPM;
-
 	AudioPlayHead* playHead;
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;
 	
