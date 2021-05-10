@@ -54,8 +54,8 @@ private:
 
 
 	LargeKnob largeKnobLookAndFeel;
-	MediumKnob mediumKnobLookAndFeel;
-	SmallKnob smallKnobLookAndFeel;
+//	MediumKnob mediumKnobLookAndFeel;
+//	SmallKnob smallKnobLookAndFeel;
     YAMSAudioProcessor& audioProcessor;
 	
 

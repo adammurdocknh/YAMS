@@ -16,16 +16,18 @@ Saturation::Saturation(){}
 float Saturation::processSample(float input,float drive, int channel) {
 //	drive = Decibels::decibelsToGain(drive);
 
-	drive *=.5;
-	lowShelf.setAmpdB(drive * .25);
-	lowPass.setFreq(20000.f-(1000*drive));
 	
-	float output = cubicDist(input, drive);
+	lowShelf.setAmpdB(drive);
+	lowShelf.setFreq(60.f);
+	lowPass.setFreq(20000.f-(1000.f*drive));
+	
+	drive *=.5;
+	
+	float output = lowShelf.processSample(input, channel);
+	output = lowPass.processSample(output, channel);
+	
 	output = cubicDist(output, drive);
 	
-	output = lowShelf.processSample(output, channel);
-	output = lowPass.processSample(output, channel);
-//	output *= juce::Decibels::decibelsToGain(12);
 	return output;
 }
 

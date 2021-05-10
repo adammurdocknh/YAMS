@@ -33,9 +33,6 @@ YAMSAudioProcessor::YAMSAudioProcessor()
 	threshParameter = apvts.getRawParameterValue("THRESHOLD");
 	limiterParameter = apvts.getRawParameterValue("LIMIT");
 	limiterParameter = apvts.getRawParameterValue("OUTPUTVOLUME");
-	
-//	atkParameter = apvts.getRawParameterValue("ATK");
-//	atkParameter = apvts.getRawParameterValue("RLS");
 
 }
 
@@ -154,28 +151,12 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 	auto saturation = apvts.getRawParameterValue("SATURATION")->load();
 	auto tone = apvts.getRawParameterValue("TONE")->load();
 	
-//	auto subGain = apvts.getRawParameterValue("SUBBAND")->load();
-//	auto lowGain = apvts.getRawParameterValue("LOWBAND")->load();
-//	auto midGain = apvts.getRawParameterValue("MIDBAND")->load();
-//	auto highGain = apvts.getRawParameterValue("HIGHBAND")->load();
-//	auto airGain = apvts.getRawParameterValue("AIRBAND")->load();
-//
-//	auto keySelected = apvts.getRawParameterValue("KEY")->load();
-	
 	// Controls for compressor
 	auto threshold = apvts.getRawParameterValue("THRESHOLD")->load();
 
 	
 	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
 	auto outputVolume = apvts.getRawParameterValue("OUTPUTVOLUME")->load();
-
-	// Test values for EQ
-	
-//	eq.setSubFreq(60.f);
-//	eq.setLowFreq(200.f);
-//	eq.setMidFreq(1000.f);
-//	eq.setHighFreq(5000.f);
-//	eq.setAirFreq(10000.f);
 	
 	playHead = this->getPlayHead();
 	playHead->getCurrentPosition (currentPositionInfo);
@@ -192,8 +173,6 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
 		for(int n = 0; n < buffer.getNumSamples(); n++) {
 			 
-//			eq.setKey(keySelected);
-//			currentBPM = currentPositionInfo.bpm;
 
 			float input = buffer.getReadPointer(channel)[n];
 			
