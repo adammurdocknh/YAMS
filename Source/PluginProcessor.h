@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "components/Saturation.h"
 #include "components/Equalizer.h"
+#include "components/Compressor.h"
 
 //==============================================================================
 /**
@@ -54,7 +55,11 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    
+    float release = 1000.f;
+        
+    float limitRelease = 7.8125f;
+    
 	Saturation preEQSaturationStage;
 	Saturation postEQSaturationStage;
 	Equalizer eq;
@@ -71,10 +76,17 @@ private:
 	std::atomic<float>* threshParameter = nullptr;
 	std::atomic<float>* limiterParameter = nullptr;
 	std::atomic<float>* outputVolumeParameter = nullptr;
-	
-	
+    
+    dsp::Compressor<float> Compressor;
+    dsp::Limiter<float> limiter;
+    dsp::ProcessSpec spec;
+    
+    class Compressor comp;
+    
 	AudioPlayHead* playHead;
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;
+    
+    float bpm = 120.f;
 	
 	AudioProcessorValueTreeState::ParameterLayout createParams();
 
