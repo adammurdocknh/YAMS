@@ -27,19 +27,15 @@ YAMSAudioProcessor::YAMSAudioProcessor()
 {
 	inputVolumeParameter = apvts.getRawParameterValue("INPUTVOLUME");
 	saturationParameter = apvts.getRawParameterValue("SATURATION");
-	subParameter = apvts.getRawParameterValue("SUBBAND");
-	lowParameter = apvts.getRawParameterValue("LOWBAND");
-	midParameter = apvts.getRawParameterValue("MIDBAND");
-	highParameter = apvts.getRawParameterValue("HIGHBAND");
-	airParameter = apvts.getRawParameterValue("AIRBAND");
-	keyParameter = apvts.getRawParameterValue("KEY");
+	toneParameter = apvts.getRawParameterValue("TONE");
+	
 
 	threshParameter = apvts.getRawParameterValue("THRESHOLD");
-	ratioParameter = apvts.getRawParameterValue("RATIO");
 	limiterParameter = apvts.getRawParameterValue("LIMIT");
+	limiterParameter = apvts.getRawParameterValue("OUTPUTVOLUME");
 	
-	atkParameter = apvts.getRawParameterValue("ATK");
-	atkParameter = apvts.getRawParameterValue("RLS");
+//	atkParameter = apvts.getRawParameterValue("ATK");
+//	atkParameter = apvts.getRawParameterValue("RLS");
 
 }
 
@@ -156,20 +152,22 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 
 	auto inputVolume = apvts.getRawParameterValue("INPUTVOLUME")->load();
 	auto saturation = apvts.getRawParameterValue("SATURATION")->load();
+	auto tone = apvts.getRawParameterValue("TONE")->load();
 	
-	auto subGain = apvts.getRawParameterValue("SUBBAND")->load();
-	auto lowGain = apvts.getRawParameterValue("LOWBAND")->load();
-	auto midGain = apvts.getRawParameterValue("MIDBAND")->load();
-	auto highGain = apvts.getRawParameterValue("HIGHBAND")->load();
-	auto airGain = apvts.getRawParameterValue("AIRBAND")->load();
-	
-	auto keySelected = apvts.getRawParameterValue("KEY")->load();
+//	auto subGain = apvts.getRawParameterValue("SUBBAND")->load();
+//	auto lowGain = apvts.getRawParameterValue("LOWBAND")->load();
+//	auto midGain = apvts.getRawParameterValue("MIDBAND")->load();
+//	auto highGain = apvts.getRawParameterValue("HIGHBAND")->load();
+//	auto airGain = apvts.getRawParameterValue("AIRBAND")->load();
+//
+//	auto keySelected = apvts.getRawParameterValue("KEY")->load();
 	
 	// Controls for compressor
 	auto threshold = apvts.getRawParameterValue("THRESHOLD")->load();
-	auto ratio = apvts.getRawParameterValue("RATIO")->load();
+
 	
 	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
+	auto outputVolume = apvts.getRawParameterValue("OUTPUTVOLUME")->load();
 
 	// Test values for EQ
 	
@@ -194,17 +192,17 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     for (int channel = 0; channel < totalNumInputChannels; ++channel) {
 		for(int n = 0; n < buffer.getNumSamples(); n++) {
 			 
-			eq.setKey(keySelected);
+//			eq.setKey(keySelected);
 //			currentBPM = currentPositionInfo.bpm;
 
 			float input = buffer.getReadPointer(channel)[n];
 			
 			input *= Decibels::decibelsToGain(inputVolume);
 			input = preEQSaturationStage.processSample(input, saturation * .25, channel);
-			input = eq.processSample(input, channel, subGain, lowGain, midGain, highGain, airGain);
+			
 			input = postEQSaturationStage.processSample(input, saturation * .25, channel);
 			
-			
+			input *= Decibels::decibelsToGain(outputVolume);
 			buffer.getWritePointer(channel)[n] = input;
 		}
     }
@@ -257,28 +255,15 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("SATURATION", "Saturation",0.f,3.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("SUBBAND", "Sub Band",-6.f,6.f,0.f));
-	
-	params.push_back(std::make_unique<AudioParameterFloat>("LOWBAND", "Low Band",-6.f,6.f,0.f));
-	
-	params.push_back(std::make_unique<AudioParameterFloat>("MIDBAND", "Mid Band",-6.f,6.f,0.f));
-	
-	params.push_back(std::make_unique<AudioParameterFloat>("HIGHBAND", "High Band",-6.f,6.f,0.f));
-	
-	params.push_back(std::make_unique<AudioParameterFloat>("AIRBAND", "Air Band",-6.f,6.f,0.f));
-	
-	params.push_back(std::make_unique<AudioParameterChoice>("KEY","Key Select",StringArray("C","C#","D","Eb","E","F","F#","G","Ab","A","Bb","B"),0));
+	params.push_back(std::make_unique<AudioParameterFloat>("TONE", "Tone",-1.f,1.f,0.f));
+
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("RATIO","Ratio",1.f,20.f,0.f));
-
 	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-6.f,-.1f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterChoice>("ATK","Attack",StringArray ("S","M","F"), 1));
+	params.push_back(std::make_unique<AudioParameterFloat>("OUTPUTVOLUME", "Output Volume",-12.f,12.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterChoice>("RLS","Release",StringArray ("S","M","F"), 1));
-	
-	
+
 	return { params.begin(), params.end() };
 }

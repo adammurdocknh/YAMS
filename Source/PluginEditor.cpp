@@ -17,7 +17,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	// SLIDERS:
 	
 	inputVolumeSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	inputVolumeSlider.setBounds(25, 75, 125, 125);
+	inputVolumeSlider.setBounds(25, 25, 125, 125);
 	inputVolumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 	inputVolumeSlider.setValue(0.f);
 	inputVolumeSlider.setLookAndFeel(&largeKnobLookAndFeel);
@@ -26,110 +26,45 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	
 	
 	saturationKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	saturationKnob.setBounds(175, 75, 125, 125);
+	saturationKnob.setBounds(175, 25, 125, 125);
 	saturationKnob.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
 	saturationKnob.setValue(0.f);
 	saturationKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	saturationAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"SATURATION",saturationKnob);
 	addAndMakeVisible(saturationKnob);
-
-	subKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	subKnob.setBounds(330, 75, 50, 50);
-	subKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	subKnob.setValue(0.f);
-	subKnob.setLookAndFeel(&smallKnobLookAndFeel);
-	subAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"SUBBAND",subKnob);
-	addAndMakeVisible(subKnob);
-
-	lowKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	lowKnob.setBounds(385, 75, 50, 50);
-	lowKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	lowKnob.setValue(0.f);
-	lowKnob.setLookAndFeel(&smallKnobLookAndFeel);
-	lowAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"LOWBAND",lowKnob);
-	addAndMakeVisible(lowKnob);
 	
-	midKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	midKnob.setBounds(440, 75, 50, 50);
-	midKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	midKnob.setValue(0.f);
-	midKnob.setLookAndFeel(&smallKnobLookAndFeel);
-	midAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"MIDBAND",midKnob);
-	addAndMakeVisible(midKnob);
-	
-	highKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	highKnob.setBounds(330, 145, 50, 50);
-	highKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	highKnob.setValue(0.f);
-	highKnob.setLookAndFeel(&smallKnobLookAndFeel);
-	highAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"HIGHBAND",highKnob);
-	addAndMakeVisible(highKnob);
-	
-	airKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	airKnob.setBounds(385, 145, 50, 50);
-	airKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	airKnob.setValue(0.f);
-	airKnob.setLookAndFeel(&smallKnobLookAndFeel);
-	airAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"AIRBAND",airKnob);
-	addAndMakeVisible(airKnob);
-	
-	keySelectBox.setBounds(445, 150, 40, 40);
-	keySelectBox.addItem("C", 1);
-	keySelectBox.addItem("C#", 2);
-	keySelectBox.addItem("D", 3);
-	keySelectBox.addItem("Eb", 4);
-	keySelectBox.addItem("E", 5);
-	keySelectBox.addItem("F", 6);
-	keySelectBox.addItem("F#", 7);
-	keySelectBox.addItem("G", 8);
-	keySelectBox.addItem("Ab",9);
-	keySelectBox.addItem("A", 10);
-	keySelectBox.addItem("Bb",11);
-	keySelectBox.addItem("B",12);
-	keySelectBox.setSelectedId(1);
-	keySelectAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts,"KEY",keySelectBox);
-	addAndMakeVisible(keySelectBox);
+	toneKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	toneKnob.setBounds(330, 25, 125, 125);
+	toneKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+	toneKnob.setValue(0.f);
+	toneKnob.setLookAndFeel(&largeKnobLookAndFeel);
+	toneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"TONE",toneKnob);
+	addAndMakeVisible(toneKnob);
 	
 	
 	threshKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	threshKnob.setBounds(25, 275, 70, 70);
+	threshKnob.setBounds(25, 225, 125, 125);
 	threshKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 	threshKnob.setValue(6.f);
-	threshKnob.setLookAndFeel(&mediumKnobLookAndFeel);
+	threshKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	threshAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"THRESHOLD",threshKnob);
 	addAndMakeVisible(threshKnob);
 	
-	ratioKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	ratioKnob.setBounds(115, 275, 70, 70);
-	ratioKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
-	ratioKnob.setValue(1.f);
-	ratioKnob.setLookAndFeel(&mediumKnobLookAndFeel);
-	ratioAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"RATIO",ratioKnob);
-	addAndMakeVisible(ratioKnob);
-	
 	limiterKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	limiterKnob.setBounds(200, 275, 70, 70);
+	limiterKnob.setBounds(175, 225, 125, 125);
 	limiterKnob.setTextBoxStyle(Slider::TextBoxBelow, true, 50, 25);
 	limiterKnob.setValue(0.f);
-	limiterKnob.setLookAndFeel(&mediumKnobLookAndFeel);
+	limiterKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	limiterAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"LIMIT",limiterKnob);
 	addAndMakeVisible(limiterKnob);
 
-	atkBox.setBounds(340, 290, 50, 25);
-	atkBox.addItem("S", 1);
-	atkBox.addItem("M", 2);
-	atkBox.addItem("F", 3);
-	atkBox.setSelectedId(1);
-	atkAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts,"ATK",atkBox);
-	addAndMakeVisible(atkBox);
-
-	rlsBox.setBounds(340, 340, 50, 25);
-	rlsBox.addItem("S", 1);
-	rlsBox.addItem("M", 2);
-	rlsBox.addItem("F", 3);
-	rlsBox.setSelectedId(1);
-	rlsAttachment = std::make_unique<AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts,"RLS",rlsBox);
-	addAndMakeVisible(rlsBox);
+	outputKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	outputKnob.setBounds(330, 230, 125, 125);
+	outputKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+	outputKnob.setValue(0.f);
+	outputKnob.setLookAndFeel(&largeKnobLookAndFeel);
+	outputAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"OUTPUTVOLUME",outputKnob);
+	addAndMakeVisible(outputKnob);
 	
 	setSize (725, 400);
 	

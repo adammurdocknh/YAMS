@@ -65,19 +65,13 @@ private:
 	
 	std::atomic<float>* inputVolumeParameter = nullptr;
 	std::atomic<float>* saturationParameter = nullptr;
-	std::atomic<float>* subParameter = nullptr;
-	std::atomic<float>* lowParameter = nullptr;
-	std::atomic<float>* midParameter = nullptr;
-	std::atomic<float>* highParameter = nullptr;
-	std::atomic<float>* airParameter = nullptr;
-	std::atomic<float>* keyParameter = nullptr;
+	std::atomic<float>* toneParameter = nullptr;
+
 	
 	std::atomic<float>* threshParameter = nullptr;
-	std::atomic<float>* ratioParameter = nullptr;
 	std::atomic<float>* limiterParameter = nullptr;
+	std::atomic<float>* outputVolumeParameter = nullptr;
 	
-	std::atomic<float>* atkParameter = nullptr;
-	std::atomic<float>* rlsParameter = nullptr;
 	
 	AudioPlayHead* playHead;
     AudioPlayHead::CurrentPositionInfo currentPositionInfo;
