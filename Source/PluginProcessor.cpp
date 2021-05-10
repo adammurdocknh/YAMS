@@ -177,9 +177,9 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 			float input = buffer.getReadPointer(channel)[n];
 			
 			input *= Decibels::decibelsToGain(inputVolume);
-			input = preEQSaturationStage.processSample(input, saturation * .25, channel);
 			
-			input = postEQSaturationStage.processSample(input, saturation * .25, channel);
+			input = preEQSaturationStage.processSample(input, saturation * .5, channel);
+			input = postEQSaturationStage.processSample(input, saturation * .5, channel);
 			
 			input *= Decibels::decibelsToGain(outputVolume);
 			buffer.getWritePointer(channel)[n] = input;

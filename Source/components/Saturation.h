@@ -24,6 +24,7 @@ public:
 	float cubicDist(float sample, float drive);
 	
 	Biquad highPass = Biquad(Biquad::FilterType::HPF,1.4142f);
+	Biquad highShelf = Biquad(Biquad::FilterType::HSHELF,0.7071f);
 	Biquad lowShelf = Biquad(Biquad::FilterType::LSHELF,1.4142f);
 	Biquad lowPass = Biquad(Biquad::FilterType::LPF,1.4142f);
 	
