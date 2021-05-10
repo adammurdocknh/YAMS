@@ -107,6 +107,17 @@ void YAMSAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 2;
+    
+    Compressor.prepare(spec);
+    Compressor.reset();
+    
+    limiter.prepare(spec);
+    limiter.reset();
+    
 }
 
 void YAMSAudioProcessor::releaseResources()
@@ -158,11 +169,37 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
 	auto outputVolume = apvts.getRawParameterValue("OUTPUTVOLUME")->load();
 	
-	playHead = this->getPlayHead();
-	playHead->getCurrentPosition (currentPositionInfo);
 	
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+    
+    playHead = this->getPlayHead();
+    playHead->getCurrentPosition (currentPositionInfo);
+    
+    float newBPM = currentPositionInfo.bpm;
+    if (bpm != newBPM){
+        comp.setBPM(newBPM);
+        bpm = newBPM;
+    }
+    
+    dsp::AudioBlock<float> block (buffer);
+    
+    Compressor.setAttack(30.f);
+    
+    Compressor.setRelease(comp.getRelease());
+    
+    Compressor.setRatio(4.f);
+    Compressor.setThreshold(threshold);
+    
+    Compressor.process(dsp::ProcessContextReplacing<float> (block));
+    
+    limiter.setThreshold(limitThreshold);
+    
+    limiter.setRelease(comp.getLimitRelease());
+        
+    limiter.process(dsp::ProcessContextReplacing<float>(block));
+    
+    block.copyTo(buffer);
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -239,7 +276,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-6.f,-.1f,0.f));
+	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-3.f,-.1f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("OUTPUTVOLUME", "Output Volume",-12.f,12.f,0.f));
 	
