@@ -117,6 +117,10 @@ void YAMSAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     
     limiter.prepare(spec);
     limiter.reset();
+	
+	toneSection.setFs(sampleRate);
+	preEQSaturationStage.setFs(sampleRate);
+	postEQSaturationStage.setFs(sampleRate);
     
 }
 
@@ -216,6 +220,7 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
 			input *= Decibels::decibelsToGain(inputVolume);
 			
 			input = preEQSaturationStage.processSample(input, saturation * .5, channel);
+			input = toneSection.processSample(input, channel, tone);
 			input = postEQSaturationStage.processSample(input, saturation * .5, channel);
 			
 			input *= Decibels::decibelsToGain(outputVolume);
@@ -271,8 +276,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("SATURATION", "Saturation",0.f,3.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("TONE", "Tone",-1.f,1.f,0.f));
-
+	params.push_back(std::make_unique<AudioParameterFloat>("TONE", "Tone",-6.f,6.f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
 	

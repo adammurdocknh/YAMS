@@ -11,10 +11,6 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "assets/LargeKnob.h"
-#include "assets/MediumKnob.h"
-#include "assets/SmallKnob.h"
-//#include "assets/SimpleMeter.h"
-//#include "assets/VUAnalysis.h"
 
 //==============================================================================
 /**
@@ -54,8 +50,6 @@ private:
 
 
 	LargeKnob largeKnobLookAndFeel;
-//	MediumKnob mediumKnobLookAndFeel;
-//	SmallKnob smallKnobLookAndFeel;
     YAMSAudioProcessor& audioProcessor;
 	
 

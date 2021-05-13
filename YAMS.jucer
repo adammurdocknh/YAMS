@@ -7,27 +7,9 @@
               companyName="Sentience Coding" cppLanguageStandard="17">
   <MAINGROUP id="GL9cY7" name="YAMS">
     <GROUP id="{BCD451F4-4E79-5457-0C74-D5062C533DB0}" name="assets">
-      <FILE id="S6iYnL" name="LargeKnob.afdesign" compile="0" resource="0"
-            file="Source/assets/LargeKnob.afdesign"/>
       <FILE id="OA9ZUk" name="LargeKnob.cpp" compile="1" resource="0" file="Source/assets/LargeKnob.cpp"/>
       <FILE id="IWOEeV" name="LargeKnob.h" compile="0" resource="0" file="Source/assets/LargeKnob.h"/>
       <FILE id="Y6kLA8" name="LargeKnob.png" compile="0" resource="1" file="Source/assets/LargeKnob.png"/>
-      <FILE id="fcfF58" name="MediumKnob.afdesign" compile="0" resource="0"
-            file="Source/assets/MediumKnob.afdesign"/>
-      <FILE id="AN8PAE" name="MediumKnob.cpp" compile="1" resource="0" file="Source/assets/MediumKnob.cpp"/>
-      <FILE id="rfs8D8" name="MediumKnob.h" compile="0" resource="0" file="Source/assets/MediumKnob.h"/>
-      <FILE id="Xx7qRv" name="MediumKnob.png" compile="0" resource="1" file="Source/assets/MediumKnob.png"/>
-      <FILE id="yKyIvq" name="SmallKnob.cpp" compile="1" resource="0" file="Source/assets/SmallKnob.cpp"/>
-      <FILE id="iz0XLD" name="SmallKnob.h" compile="0" resource="0" file="Source/assets/SmallKnob.h"/>
-      <FILE id="nQTeWD" name="SmallKnob.png" compile="0" resource="1" file="Source/assets/SmallKnob.png"/>
-      <FILE id="ad4mQg" name="YAMS GUI.afdesign" compile="0" resource="0"
-            file="Source/assets/YAMS GUI.afdesign"/>
-      <FILE id="rQxKzU" name="YAMS GUI redo.afdesign" compile="0" resource="0"
-            file="Source/assets/YAMS GUI redo.afdesign"/>
-      <FILE id="LUzQ13" name="YAMS GUI redo.png" compile="0" resource="1"
-            file="Source/assets/YAMS GUI redo.png"/>
-      <FILE id="vbs1tf" name="YAMS GUI VERT.afdesign" compile="0" resource="0"
-            file="Source/assets/YAMS GUI VERT.afdesign"/>
       <FILE id="KuYfLT" name="YAMS GUI.png" compile="0" resource="1" file="Source/assets/YAMS GUI.png"/>
     </GROUP>
     <GROUP id="{BFAD9F80-3F11-88FB-BE9E-126F405762DE}" name="components">
@@ -35,13 +17,11 @@
       <FILE id="VjvRII" name="Biquad.h" compile="0" resource="0" file="Source/components/Biquad.h"/>
       <FILE id="Jl0hA4" name="Compressor.cpp" compile="1" resource="0" file="Source/components/Compressor.cpp"/>
       <FILE id="T06ejT" name="Compressor.h" compile="0" resource="0" file="Source/components/Compressor.h"/>
-      <FILE id="GUZ5J7" name="Equalizer.cpp" compile="1" resource="0" file="Source/components/Equalizer.cpp"/>
-      <FILE id="NEmWio" name="Equalizer.h" compile="0" resource="0" file="Source/components/Equalizer.h"/>
-      <FILE id="LKa2jz" name="FilterBands.cpp" compile="1" resource="0" file="Source/components/FilterBands.cpp"/>
-      <FILE id="pl3USB" name="FilterBands.h" compile="0" resource="0" file="Source/components/FilterBands.h"/>
       <FILE id="KJ9jS1" name="Saturation.cpp" compile="1" resource="0" file="Source/components/Saturation.cpp"/>
       <FILE id="TXqYbk" name="Saturation.h" compile="0" resource="0" file="Source/components/Saturation.h"/>
       <FILE id="qrHjly" name="SimpleMeter.h" compile="0" resource="0" file="Source/components/SimpleMeter.h"/>
+      <FILE id="sEk0Hf" name="ToneSection.cpp" compile="1" resource="0" file="Source/components/ToneSection.cpp"/>
+      <FILE id="iAO01B" name="ToneSection.h" compile="0" resource="0" file="Source/components/ToneSection.h"/>
       <FILE id="RNdfNH" name="VUAnalysis.h" compile="0" resource="0" file="Source/components/VUAnalysis.h"/>
     </GROUP>
     <GROUP id="{DE4D82C5-EC78-0BE3-5E92-D2EF5181BC30}" name="Source">

@@ -10,8 +10,8 @@
 
 #include <JuceHeader.h>
 #include "components/Saturation.h"
-#include "components/Equalizer.h"
 #include "components/Compressor.h"
+#include "components/ToneSection.h"
 
 //==============================================================================
 /**
@@ -62,7 +62,7 @@ public:
     
 	Saturation preEQSaturationStage;
 	Saturation postEQSaturationStage;
-	Equalizer eq;
+	ToneSection toneSection;
 	
 	AudioProcessorValueTreeState apvts;
 	
