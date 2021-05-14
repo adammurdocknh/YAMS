@@ -19,7 +19,7 @@ class Saturation
 public:
 	Saturation();
 	
-	float processSample(float input, float drive, int channel);
+	float processSample(float sample, float drive, int channel);
 	float atandist(float sample, float drive);
 	float cubicDist(float sample, float drive);
 	

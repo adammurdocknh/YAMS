@@ -12,7 +12,7 @@
 
 Saturation::Saturation(){}
 
-float Saturation::processSample(float input,float drive, int channel) {
+float Saturation::processSample(float sample,float drive, int channel) {
 	
 	lowShelf.setAmpdB(drive*.25f);
 	lowShelf.setFreq(60.f);
@@ -21,17 +21,14 @@ float Saturation::processSample(float input,float drive, int channel) {
 
 	
 	
-	drive *=.5;
+	drive *=.25;
 	
-	float output = lowShelf.processSample(input, channel);
-	output = highShelf.processSample(output, channel);
+	sample = lowShelf.processSample(sample, channel);
+	sample = highShelf.processSample(sample, channel);
 	
-	output = cubicDist(output, drive);
+	sample = cubicDist(sample, drive);
 	
-	// output = lowShelf.processSample(input, channel);
-	// output = highShelf.processSample(output, channel);
-	
-	return output;
+	return sample;
 }
 
 float Saturation::cubicDist(float sample, float drive) {

@@ -19,10 +19,8 @@
       <FILE id="T06ejT" name="Compressor.h" compile="0" resource="0" file="Source/components/Compressor.h"/>
       <FILE id="KJ9jS1" name="Saturation.cpp" compile="1" resource="0" file="Source/components/Saturation.cpp"/>
       <FILE id="TXqYbk" name="Saturation.h" compile="0" resource="0" file="Source/components/Saturation.h"/>
-      <FILE id="qrHjly" name="SimpleMeter.h" compile="0" resource="0" file="Source/components/SimpleMeter.h"/>
       <FILE id="sEk0Hf" name="ToneSection.cpp" compile="1" resource="0" file="Source/components/ToneSection.cpp"/>
       <FILE id="iAO01B" name="ToneSection.h" compile="0" resource="0" file="Source/components/ToneSection.h"/>
-      <FILE id="RNdfNH" name="VUAnalysis.h" compile="0" resource="0" file="Source/components/VUAnalysis.h"/>
     </GROUP>
     <GROUP id="{DE4D82C5-EC78-0BE3-5E92-D2EF5181BC30}" name="Source">
       <FILE id="xnr4Wa" name="PluginProcessor.cpp" compile="1" resource="0"

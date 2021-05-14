@@ -19,24 +19,40 @@ float ToneSection::processSample(float sample, float channel, float toneInput) {
 	
 	// Dark section
 	if (toneInput < 0) {
-		highShelf.setAmpdB(toneInput);
+		highShelf.setAmpdB(toneInput * .25);
 		// You'll have a negative input so you need to flip the sign.
 		toneInput *= -1;
 		lowShelf.setAmpdB(toneInput);
 		
-		return highShelf.processSample(lowShelf.processSample(lowFilter.processSample(sample, channel), channel),channel);
+		float lowFreq = 2.5 * toneInput;
+		lowFilter.setFreq(lowFreq);
+		lowShelf.setFreq(lowFreq);
+		
+
+		sample = lowFilter.processSample(sample, channel);
+		sample = highShelf.processSample(sample, channel);
+		sample = lowShelf.processSample(sample, channel);
+
+		
+		return sample;
 	};
 		
 	// Bright section
 	if (toneInput > 0){
-		float lowFreq = 10 * toneInput;
-		lowFreq += 20;
+		float lowFreq = 5 * toneInput;
 		lowFilter.setFreq(lowFreq);
 		lowShelf.setFreq(lowFreq);
-		lowShelf.setAmpdB(toneInput * -.5);
-		highShelf.setAmpdB(toneInput * .5);
+		highShelf.setAmpdB(toneInput * .25);
 		
-		return highShelf.processSample(lowShelf.processSample(lowFilter.processSample(sample, channel), channel),channel);
+		lowShelf.setAmpdB(toneInput*-.5);
+		
+		
+		sample = lowFilter.processSample(sample, channel);
+		sample = highShelf.processSample(sample, channel);
+		sample = lowShelf.processSample(sample, channel);
+		
+		
+		return sample;
 	}
 	else {
 //		return lowFilter.processSample(sample,channel);

@@ -19,7 +19,7 @@ public:
 	void setFs(float Fs);
 	
 private:
-	Biquad lowFilter = Biquad(Biquad::FilterType::HPF, 0.7071f);
+	Biquad lowFilter = Biquad(Biquad::FilterType::HPF, 1.414f);
 	Biquad lowShelf = Biquad(Biquad::FilterType::LSHELF, 0.7071f);
 	
 	Biquad highShelf = Biquad(Biquad::FilterType::HSHELF,0.7071f);
