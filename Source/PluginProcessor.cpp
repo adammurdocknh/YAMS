@@ -195,13 +195,15 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     Compressor.setRatio(4.f);
     Compressor.setThreshold(threshold);
     
-    Compressor.process(dsp::ProcessContextReplacing<float> (block));
-    
+	if (threshold != 6.1f) {
+		Compressor.process(dsp::ProcessContextReplacing<float> (block));
+	}
     limiter.setThreshold(limitThreshold);
     
     limiter.setRelease(comp.getLimitRelease());
-        
-    limiter.process(dsp::ProcessContextReplacing<float>(block));
+	if (limitThreshold != 0.f) {
+		limiter.process(dsp::ProcessContextReplacing<float>(block));
+	}
     
     block.copyTo(buffer);
 
@@ -278,9 +280,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("TONE", "Tone",-12.f,12.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.f,6.f));
+	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.1f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-3.f,-.1f,0.f));
+	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-3.f,0.f,0.f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("OUTPUTVOLUME", "Output Volume",-12.f,12.f,0.f));
 	

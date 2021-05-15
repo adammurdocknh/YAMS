@@ -45,7 +45,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	threshKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	threshKnob.setBounds(25, 225, 125, 125);
 	threshKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	threshKnob.setValue(6.f);
+	threshKnob.setValue(6.1f);
 	threshKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	threshAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"THRESHOLD",threshKnob);
 	addAndMakeVisible(threshKnob);
