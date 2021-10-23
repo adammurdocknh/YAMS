@@ -19,7 +19,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	inputVolumeSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	inputVolumeSlider.setBounds(25, 25, 125, 125);
 	inputVolumeSlider.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
-	inputVolumeSlider.setValue(0.f);
+//	inputVolumeSlider.setValue(0.f);
 	inputVolumeSlider.setLookAndFeel(&largeKnobLookAndFeel);
 	inputVolumeAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"INPUTVOLUME",inputVolumeSlider);
 	addAndMakeVisible(inputVolumeSlider);
@@ -28,7 +28,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	saturationKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	saturationKnob.setBounds(175, 25, 125, 125);
 	saturationKnob.setTextBoxStyle(juce::Slider::NoTextBox, true, 0, 0);
-	saturationKnob.setValue(0.f);
+//	saturationKnob.setValue(0.f);
 	saturationKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	saturationAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"SATURATION",saturationKnob);
 	addAndMakeVisible(saturationKnob);
@@ -36,7 +36,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	toneKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	toneKnob.setBounds(325, 25, 125, 125);
 	toneKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	toneKnob.setValue(0.f);
+//	toneKnob.setValue(0.f);
 	toneKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	toneAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"TONE",toneKnob);
 	addAndMakeVisible(toneKnob);
@@ -45,7 +45,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	threshKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	threshKnob.setBounds(25, 225, 125, 125);
 	threshKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	threshKnob.setValue(6.1f);
+//	threshKnob.setValue(6.1f);
 	threshKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	threshAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"THRESHOLD",threshKnob);
 	addAndMakeVisible(threshKnob);
@@ -53,7 +53,7 @@ YAMSAudioProcessorEditor::YAMSAudioProcessorEditor (YAMSAudioProcessor& p)
 	limiterKnob.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	limiterKnob.setBounds(175, 225, 125, 125);
 	limiterKnob.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	limiterKnob.setValue(0.f);
+//	limiterKnob.setValue(0.f);
 	limiterKnob.setLookAndFeel(&largeKnobLookAndFeel);
 	limiterAttachment = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts,"LIMIT",limiterKnob);
 	addAndMakeVisible(limiterKnob);

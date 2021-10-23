@@ -280,7 +280,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createPa
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("TONE", "Tone",-12.f,12.f,0.f));
 	
-	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.1f,0.f));
+	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.1f,6.1f));
 	
 	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-3.f,0.f,0.f));
 	
