@@ -17,4 +17,5 @@ The premise of the plugin was to develop a quick and dirty mastering solution. I
 
 ## Installers:
 
-**[MAC](https://www.dropbox.com/s/ilzm8gtggp4rpgv/YAMS.pkg?dl=0)**
+[Mac](https://www.dropbox.com/s/ilzm8gtggp4rpgv/YAMS.pkg?dl=0)
+Windows - Coming soon!
