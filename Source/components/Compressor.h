@@ -13,26 +13,22 @@
 class Compressor {
 
 public:
+  Compressor();
 
-    Compressor();
+  void setBPM(float newBPM);
 
-    void setBPM(float newBPM);
+  void setRelease();
 
-    void setRelease();
+  float getRelease();
 
-    float getRelease();
+  void setLimitRelease();
 
-    void setLimitRelease();
-
-    float getLimitRelease();
+  float getLimitRelease();
 
 private:
+  float bpm = 120.f;
 
-    float bpm = 120.f;
+  float release = 1000.f;
 
-    float release = 1000.f;
-
-    float limitRelease = 7.8125f;
-
-
+  float limitRelease = 7.8125f;
 };
