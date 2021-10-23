@@ -33,5 +33,6 @@
 
 **/Builds
 **/JuceLibraryCode
+.DS_Store
 
 *.afdesign

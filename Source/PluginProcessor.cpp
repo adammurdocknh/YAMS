@@ -19,9 +19,21 @@ YAMSAudioProcessor::YAMSAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+						apvts(*this, nullptr, "Params", createParams())
+
 #endif
+
 {
+	inputVolumeParameter = apvts.getRawParameterValue("INPUTVOLUME");
+	saturationParameter = apvts.getRawParameterValue("SATURATION");
+	toneParameter = apvts.getRawParameterValue("TONE");
+	
+
+	threshParameter = apvts.getRawParameterValue("THRESHOLD");
+	limiterParameter = apvts.getRawParameterValue("LIMIT");
+	limiterParameter = apvts.getRawParameterValue("OUTPUTVOLUME");
+
 }
 
 YAMSAudioProcessor::~YAMSAudioProcessor()
@@ -95,6 +107,21 @@ void YAMSAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 2;
+    
+    Compressor.prepare(spec);
+    Compressor.reset();
+    
+    limiter.prepare(spec);
+    limiter.reset();
+	
+	toneSection.setFs(sampleRate);
+	preEQSaturationStage.setFs(sampleRate);
+	postEQSaturationStage.setFs(sampleRate);
+    
 }
 
 void YAMSAudioProcessor::releaseResources()
@@ -135,14 +162,50 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+	auto inputVolume = apvts.getRawParameterValue("INPUTVOLUME")->load();
+	auto saturation = apvts.getRawParameterValue("SATURATION")->load();
+	auto tone = apvts.getRawParameterValue("TONE")->load();
+	
+	// Controls for compressor
+	auto threshold = apvts.getRawParameterValue("THRESHOLD")->load();
+
+	
+	auto limitThreshold = apvts.getRawParameterValue("LIMIT")->load();
+	auto outputVolume = apvts.getRawParameterValue("OUTPUTVOLUME")->load();
+	
+	
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+    
+    playHead = this->getPlayHead();
+    playHead->getCurrentPosition (currentPositionInfo);
+    
+    float newBPM = currentPositionInfo.bpm;
+    if (bpm != newBPM){
+        comp.setBPM(newBPM);
+        bpm = newBPM;
+    }
+    
+    dsp::AudioBlock<float> block (buffer);
+    
+    Compressor.setAttack(30.f);
+    
+    Compressor.setRelease(comp.getRelease());
+    
+    Compressor.setRatio(4.f);
+    Compressor.setThreshold(threshold);
+    
+	if (threshold != 6.1f) {
+		Compressor.process(dsp::ProcessContextReplacing<float> (block));
+	}
+    limiter.setThreshold(limitThreshold);
+    
+    limiter.setRelease(comp.getLimitRelease());
+	if (limitThreshold != 0.f) {
+		limiter.process(dsp::ProcessContextReplacing<float>(block));
+	}
+    
+    block.copyTo(buffer);
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
@@ -150,11 +213,21 @@ void YAMSAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+		for(int n = 0; n < buffer.getNumSamples(); n++) {
+			 
 
-        // ..do something to the data...
+			float input = buffer.getReadPointer(channel)[n];
+			
+			input *= Decibels::decibelsToGain(inputVolume);
+			
+			input = preEQSaturationStage.processSample(input, saturation * .5, channel);
+			input = toneSection.processSample(input, channel, tone);
+			input = postEQSaturationStage.processSample(input, saturation * .5, channel);
+			
+			input *= Decibels::decibelsToGain(outputVolume);
+			buffer.getWritePointer(channel)[n] = input;
+		}
     }
 }
 
@@ -175,12 +248,19 @@ void YAMSAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+	auto state = apvts.copyState();
+	std::unique_ptr<XmlElement> xml (state.createXml());
+	copyXmlToBinary(*xml, destData);
 }
 
 void YAMSAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+	std::unique_ptr<XmlElement> xmlState (getXmlFromBinary(data, sizeInBytes));
+	if (xmlState.get() != nullptr)
+		if (xmlState->hasTagName (apvts.state.getType()))
+			apvts.replaceState(ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================
@@ -188,4 +268,24 @@ void YAMSAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new YAMSAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout YAMSAudioProcessor::createParams() {
+	std::vector<std::unique_ptr<RangedAudioParameter>> params;
+	
+	// Adding input slider to params vector
+	params.push_back(std::make_unique<AudioParameterFloat>("INPUTVOLUME", "Input Volume",-12.f,12.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("SATURATION", "Saturation",0.f,3.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("TONE", "Tone",-12.f,12.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("THRESHOLD", "Threshold",-20.f,6.1f,6.1f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("LIMIT","Limit",-3.f,0.f,0.f));
+	
+	params.push_back(std::make_unique<AudioParameterFloat>("OUTPUTVOLUME", "Output Volume",-12.f,12.f,0.f));
+	
+
+	return { params.begin(), params.end() };
 }
