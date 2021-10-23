@@ -15,3 +15,6 @@ The premise of the plugin was to develop a quick and dirty mastering solution. I
 - **<u>Compressor</u>** - A simple compressor with release time calculated based on session’s bpm to get smoother results.
 - **<u>Limiter</u>** - A limiter using two compressors, in combination with a hard clipper set at 0dB.
 
+## Installers:
+
+**Mac** Click [here](https://www.dropbox.com/s/ilzm8gtggp4rpgv/YAMS.pkg?dl=0)
