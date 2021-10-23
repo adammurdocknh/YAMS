@@ -30,28 +30,28 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-	
-	Slider inputVolumeSlider;
-	Slider saturationKnob;
-	Slider toneKnob;
-	
-	Slider threshKnob;
-	Slider limiterKnob;
-	Slider outputKnob;
-	
-	
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> inputVolumeAttachment;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> saturationAttachment;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> toneAttachment;
-	
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> threshAttachment;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiterAttachment;
-	std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> outputAttachment;
+
+    Slider inputVolumeSlider;
+    Slider saturationKnob;
+    Slider toneKnob;
+
+    Slider threshKnob;
+    Slider limiterKnob;
+    Slider outputKnob;
 
 
-	LargeKnob largeKnobLookAndFeel;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> inputVolumeAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> saturationAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> toneAttachment;
+
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> threshAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> limiterAttachment;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> outputAttachment;
+
+
+    LargeKnob largeKnobLookAndFeel;
     YAMSAudioProcessor& audioProcessor;
-	
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (YAMSAudioProcessorEditor)
 };

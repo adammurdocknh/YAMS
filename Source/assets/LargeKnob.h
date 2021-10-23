@@ -15,6 +15,6 @@
 class LargeKnob : public LookAndFeel_V4
 {
 public:
-	Image sprite = ImageCache::getFromMemory(BinaryData::LargeKnob_png, BinaryData::LargeKnob_pngSize);
-	 void drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos, const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider);
+    Image sprite = ImageCache::getFromMemory(BinaryData::LargeKnob_png, BinaryData::LargeKnob_pngSize);
+    void drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos, const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider);
 };

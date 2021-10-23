@@ -27,9 +27,9 @@ public:
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
 
-   #ifndef JucePlugin_PreferredChannelConfigurations
+#ifndef JucePlugin_PreferredChannelConfigurations
     bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
-   #endif
+#endif
 
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
@@ -55,41 +55,41 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-    
-    float release = 1000.f;
-        
-    float limitRelease = 7.8125f;
-    
-	Saturation preEQSaturationStage;
-	Saturation postEQSaturationStage;
-	ToneSection toneSection;
-	
-	AudioProcessorValueTreeState apvts;
-	
-private:
-	
-	std::atomic<float>* inputVolumeParameter = nullptr;
-	std::atomic<float>* saturationParameter = nullptr;
-	std::atomic<float>* toneParameter = nullptr;
 
-	
-	std::atomic<float>* threshParameter = nullptr;
-	std::atomic<float>* limiterParameter = nullptr;
-	std::atomic<float>* outputVolumeParameter = nullptr;
-    
+    float release = 1000.f;
+
+    float limitRelease = 7.8125f;
+
+    Saturation preEQSaturationStage;
+    Saturation postEQSaturationStage;
+    ToneSection toneSection;
+
+    AudioProcessorValueTreeState apvts;
+
+private:
+
+    std::atomic<float>* inputVolumeParameter = nullptr;
+    std::atomic<float>* saturationParameter = nullptr;
+    std::atomic<float>* toneParameter = nullptr;
+
+
+    std::atomic<float>* threshParameter = nullptr;
+    std::atomic<float>* limiterParameter = nullptr;
+    std::atomic<float>* outputVolumeParameter = nullptr;
+
     dsp::Compressor<float> Compressor;
     dsp::Limiter<float> limiter;
     dsp::ProcessSpec spec;
-    
-    class Compressor comp;
-    
-	AudioPlayHead* playHead;
-    AudioPlayHead::CurrentPositionInfo currentPositionInfo;
-    
-    float bpm = 120.f;
-	
-	AudioProcessorValueTreeState::ParameterLayout createParams();
 
-	//==============================================================================
+    class Compressor comp;
+
+    AudioPlayHead* playHead;
+    AudioPlayHead::CurrentPositionInfo currentPositionInfo;
+
+    float bpm = 120.f;
+
+    AudioProcessorValueTreeState::ParameterLayout createParams();
+
+    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (YAMSAudioProcessor)
 };

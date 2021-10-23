@@ -13,14 +13,14 @@
 
 class ToneSection {
 public:
-	ToneSection();
-	
-	float processSample(float sample, float channel, float toneInput);
-	void setFs(float Fs);
-	
+    ToneSection();
+
+    float processSample(float sample, float channel, float toneInput);
+    void setFs(float Fs);
+
 private:
-	Biquad lowFilter = Biquad(Biquad::FilterType::HPF, 1.414f);
-	Biquad lowShelf = Biquad(Biquad::FilterType::LSHELF, 0.7071f);
-	
-	Biquad highShelf = Biquad(Biquad::FilterType::HSHELF,0.7071f);
+    Biquad lowFilter = Biquad(Biquad::FilterType::HPF, 1.414f);
+    Biquad lowShelf = Biquad(Biquad::FilterType::LSHELF, 0.7071f);
+
+    Biquad highShelf = Biquad(Biquad::FilterType::HSHELF,0.7071f);
 };
