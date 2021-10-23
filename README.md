@@ -6,7 +6,7 @@ An audio plugin for a 30 second master. This plugin was submitted to the Audio E
 
 The premise of the plugin was to develop a quick and dirty mastering solution. If you want to send a client an approximate version of what their mix might sound like mastered you can get a great sound with the 6 simple controls.
 
-<img src="/Users/adammurdock/Dropbox/Screenshots/Screen Shot 2021-10-23 at 6.22.38 PM.png" alt="Screen Shot 2021-10-23 at 6.22.38 PM"  />
+[Screenshot](https://postimg.cc/wygdkFDR)
 
 ## Features
 
